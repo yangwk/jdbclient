@@ -8,7 +8,7 @@ import com.github.yangwk.jdbclient.page.parser.Parser;
 import com.github.yangwk.jdbclient.page.parser.impl.AbstractParser;
 
 public class PageHelper {
-    private static ConcurrentHashMap<String, Parser> parserCache = new ConcurrentHashMap<String, Parser>();
+    private static final ConcurrentHashMap<String, Parser> parserCache = new ConcurrentHashMap<String, Parser>();
 
     public static Page getPage(int pageNum, int pageSize) {
         Page page = new Page(pageNum, pageSize);

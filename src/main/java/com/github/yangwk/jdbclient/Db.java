@@ -48,11 +48,11 @@ public class Db {
 	private final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(getClass());
 	
 	private static ConnectionHolder holder = null;
-	private static Db me = null;
+	private volatile static Db me = null;
 	
 	private Db() {}
 	
-	public static void init(ConnectionHolder holder){
+	public synchronized static void init(ConnectionHolder holder){
 		if(holder == null){
 			throw new IllegalArgumentException("ConnectionHolder is null");
 		}
@@ -69,7 +69,11 @@ public class Db {
 	 */
 	public static Db get(){
 		if(me == null){
-			me = new Db();
+		    synchronized (Db.class) {
+		        if(me == null){
+		            me = new Db();
+		        }
+            }
 		}
 		return me;
 	}
